@@ -6,4 +6,7 @@ const router=express.Router();
 router.post('/',genShortUrl)
 router.get('/analytics/:shortId',getAanalytics)
 router.get('/:shortId',redirect)
+
+
+
 export default router

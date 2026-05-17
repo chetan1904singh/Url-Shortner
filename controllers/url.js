@@ -2,7 +2,7 @@ import express from "express";
 import URL from "../models/url.js";
 import shortid from "shortid";
 
-//this goes inside as callback fn of get so has access to req,res
+//this goes inside as callback fn of http req so has access to req,res
 async function genShortUrl(req,res){
         if(!req.body || !req.body.url)return res.status(400).json(`error : enter some url`);
           const url=req.body.url;
@@ -14,10 +14,17 @@ async function genShortUrl(req,res){
             visitHistory:[]
           })
           console.log(shortId);
-          return res.json({id: shortId});
+          return res.render("home",{
+            id:shortId,
+          });
 }
 
-//redirect route
+//redirect fn
+/*
+take the enteredid int url(route is /:shortId)
+update the db(timestamps) after finding the entry
+redirect to redirect url
+*/
 async function redirect(req,res){
    const shortId=req.params.shortId;
     const entry=await URL.findOneAndUpdate({
